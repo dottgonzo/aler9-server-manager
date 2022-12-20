@@ -6,7 +6,7 @@ export type TAler9Config = {
   writeTimeout: string
   readBufferCount: number
   externalAuthenticationURL: string
-  api: true
+  api: boolean
   apiAddress: string
   metrics: boolean
   metricsAddress: string
@@ -27,7 +27,7 @@ export type TAler9Config = {
   serverKey: string
   serverCert: string
   authMethods: string[]
-  rtmpDisable: true
+  rtmpDisable: boolean
   rtmpAddress: string
   rtmpEncryption: string
   rtmpsAddress: string
@@ -64,7 +64,7 @@ export type TAler9Config = {
       sourceOnDemandStartTimeout: string
       sourceOnDemandCloseAfter: string
       sourceRedirect: string
-      disablePublisherOverride: true
+      disablePublisherOverride: boolean
       fallback: string
       rpiCameraCamID: number
       rpiCameraWidth: number
@@ -113,19 +113,19 @@ export type TAler9Config = {
 export type TAler9PathAddOrEdit = {
   source: string
   sourceProtocol: string
-  sourceAnyPortEnable: true
+  sourceAnyPortEnable: boolean
   sourceFingerprint: string
-  sourceOnDemand: true
+  sourceOnDemand: boolean
   sourceOnDemandStartTimeout: string
   sourceOnDemandCloseAfter: string
   sourceRedirect: string
-  disablePublisherOverride: true
+  disablePublisherOverride: boolean
   fallback: string
   rpiCameraCamID: number
   rpiCameraWidth: number
   rpiCameraHeight: number
-  rpiCameraHFlip: true
-  rpiCameraVFlip: true
+  rpiCameraHFlip: boolean
+  rpiCameraVFlip: boolean
   rpiCameraBrightness: number
   rpiCameraContrast: number
   rpiCameraSaturation: number
@@ -152,15 +152,15 @@ export type TAler9PathAddOrEdit = {
   readPass: string
   readIPs: string[]
   runOnInit: string
-  runOnInitRestart: true
+  runOnInitRestart: boolean
   runOnDemand: string
-  runOnDemandRestart: true
+  runOnDemandRestart: boolean
   runOnDemandStartTimeout: string
   runOnDemandCloseAfter: string
   runOnReady: string
-  runOnReadyRestart: true
+  runOnReadyRestart: boolean
   runOnRead: string
-  runOnReadRestart: true
+  runOnReadRestart: boolean
 }
 
 export default class Aler9StreamServer {
