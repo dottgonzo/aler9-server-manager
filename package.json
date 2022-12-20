@@ -1,0 +1,38 @@
+{
+  "name": "aler9-server-manager",
+  "version": "0.0.0",
+  "description": "aler9 multiprotocol media server API manager",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "build": "./node_modules/typescript/bin/tsc",
+    "watch-ts": "./node_modules/typescript/bin/tsc -w",
+    "release:patch": "npm version patch && git push && git push --tags",
+    "release:minor": "npm version minor && git push && git push --tags",
+    "release:major": "npm version major && git push && git push --tags"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dottgonzo/aler9-server-manager.git"
+  },
+  "keywords": [
+    "aler9",
+    "streaming",
+    "rtsp",
+    "webrtc"
+  ],
+  "engines": {
+    "node": ">=18.0.0",
+    "browsers": "*"
+  },
+  "author": "Dario Caruso",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/dottgonzo/aler9-server-manager/issues"
+  },
+  "homepage": "https://github.com/dottgonzo/aler9-server-manager#readme",
+  "devDependencies": {
+    "@types/node": "^18.11.17",
+    "typescript": "^4.9.4"
+  }
+}
