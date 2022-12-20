@@ -163,11 +163,47 @@ export type TAler9PathAddOrEdit = {
   runOnReadRestart: boolean
 }
 
+export type TPathList = {
+  items: {
+    [x: string]: {
+      created: string
+      remoteAddr: string
+      bytesReceived: number
+      bytesSent: number
+    }
+  }
+}
+
+export type TConnections = {
+  items: {
+    [x: string]: {
+      created: string
+      remoteAddr: string
+      bytesReceived: number
+      bytesSent: number
+    }
+  }
+}
+
+export type TRTSPSessions = {
+  items: {
+    [x: string]: {
+      created: string
+      remoteAddr: string
+      bytesReceived: number
+      bytesSent: number
+      state: string
+    }
+  }
+}
+
 export default class Aler9StreamServer {
   uri: string = ''
   constructor(cfg: { uri: string }) {
     if (cfg.uri) this.uri = cfg.uri
+    else throw new Error('uri is required')
   }
+
   async getConfig() {
     const config = await fetch(this.uri + '/v1/config/get', {
       method: 'GET',
@@ -176,6 +212,16 @@ export default class Aler9StreamServer {
       },
     })
     const data: TAler9Config = await config.json()
+    return data
+  }
+  async getPaths() {
+    const pathList = await fetch(this.uri + '/v1/paths/list', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    const data: TPathList = await pathList.json()
     return data
   }
   async addPath(pathName: string, path: TAler9PathAddOrEdit) {
@@ -190,24 +236,75 @@ export default class Aler9StreamServer {
     return data
   }
   async editPath(pathName: string, path: TAler9PathAddOrEdit) {
-    const addPathToServer = await fetch(this.uri + '/v1/config/paths/edit/' + pathName, {
+    const editPathOnServer = await fetch(this.uri + '/v1/config/paths/edit/' + pathName, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(path),
     })
-    const data = await addPathToServer.json()
+    const data = await editPathOnServer.json()
     return data
   }
   async deletePath(pathName: string) {
-    const addPathToServer = await fetch(this.uri + '/v1/config/paths/remove/' + pathName, {
+    const deletePathFromServer = await fetch(this.uri + '/v1/config/paths/remove/' + pathName, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
     })
-    const data = await addPathToServer.json()
+    const data = await deletePathFromServer.json()
+    return data
+  }
+  async getRtspConnections() {
+    const rtspConnections = await fetch(this.uri + '/v1/rtspconns/list', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    const data: TConnections = await rtspConnections.json()
+    return data
+  }
+
+  async getRtspSessions() {
+    const rtspSessions = await fetch(this.uri + '/v1/rtspsessions/list', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    const data: TRTSPSessions = await rtspSessions.json()
+    return data
+  }
+  async getWebrtcConnections() {
+    const webrtcConnections = await fetch(this.uri + '/v1/webrtcconns/list', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    const data: TConnections = await webrtcConnections.json()
+    return data
+  }
+  async kickRtspSession(kick_id: string) {
+    const webrtcConnections = await fetch(this.uri + '/v1/rtspsessions/kick/' + kick_id, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    const data = await webrtcConnections.json()
+    return data
+  }
+  async kickWebrtcConnection(kick_id: string) {
+    const webrtcConnections = await fetch(this.uri + '/v1/webrtcconns/kick/' + kick_id, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    const data = await webrtcConnections.json()
     return data
   }
 }
