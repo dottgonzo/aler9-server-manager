@@ -109,4 +109,4 @@ export default class Aler9StreamServer {
         return data;
     }
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=index.mjs.map
