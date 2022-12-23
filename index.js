@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-class Aler9StreamServer {
+export default class Aler9StreamServer {
     constructor(cfg) {
         this.uri = '';
         if (cfg.uri)
@@ -111,5 +109,4 @@ class Aler9StreamServer {
         return data;
     }
 }
-exports.default = Aler9StreamServer;
 //# sourceMappingURL=index.js.map
