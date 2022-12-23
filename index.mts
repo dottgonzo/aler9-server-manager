@@ -170,6 +170,7 @@ export type TPathList = {
       remoteAddr: string
       bytesReceived: number
       bytesSent: number
+      sourceReady: boolean
     }
   }
 }
