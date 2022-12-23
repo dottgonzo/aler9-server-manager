@@ -171,6 +171,7 @@ export type TPathList = {
       bytesReceived: number
       bytesSent: number
       sourceReady: boolean
+      conf: TAler9PathAddOrEdit
     }
   }
 }
