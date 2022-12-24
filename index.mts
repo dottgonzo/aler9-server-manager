@@ -172,7 +172,7 @@ export type TPathList = {
       bytesSent: number
       sourceReady: boolean
       conf: TAler9PathAddOrEdit
-      readers: number
+      readers: any[]
     }
   }
 }
