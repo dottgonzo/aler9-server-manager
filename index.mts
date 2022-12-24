@@ -166,13 +166,19 @@ export type TAler9PathAddOrEdit = {
 export type TPathList = {
   items: {
     [x: string]: {
-      created: string
-      remoteAddr: string
-      bytesReceived: number
-      bytesSent: number
-      sourceReady: boolean
+      confName: string
       conf: TAler9PathAddOrEdit
-      readers: any[]
+      source: {
+        type: string
+        id: string
+      }
+      sourceReady: true
+      tracks: string[]
+      bytesReceived: number
+      readers: {
+        type: string
+        id: string
+      }[]
     }
   }
 }
