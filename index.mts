@@ -311,8 +311,8 @@ export default class Aler9StreamServer {
       headers,
       body: JSON.stringify(path),
     })
-    const data = await addPathToServer.json()
-    return data
+    if (addPathToServer.ok) return true
+    else throw new Error("Couldn't add path " + addPathToServer.statusText)
   }
   async editPath(pathName: string, path: Partial<TAler9PathAddOrEdit>) {
     const headers: any = {
@@ -324,8 +324,8 @@ export default class Aler9StreamServer {
       headers,
       body: JSON.stringify(path),
     })
-    const data = await editPathOnServer.json()
-    return data
+    if (editPathOnServer.ok) return true
+    else throw new Error("Couldn't editPathOnServer " + editPathOnServer.statusText)
   }
   async deletePath(pathName: string) {
     const headers: any = {
@@ -336,8 +336,8 @@ export default class Aler9StreamServer {
       method: 'POST',
       headers,
     })
-    const data = await deletePathFromServer.json()
-    return data
+    if (deletePathFromServer.ok) return true
+    else throw new Error("Couldn't add path " + deletePathFromServer.statusText)
   }
   async getRtspConnections() {
     const headers: any = {
@@ -381,23 +381,23 @@ export default class Aler9StreamServer {
       'Content-Type': 'application/json',
     }
     if (this.auth) headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password)
-    const webrtcConnections = await fetch(this.uri + '/v1/rtspsessions/kick/' + kick_id, {
+    const kickConn = await fetch(this.uri + '/v1/rtspsessions/kick/' + kick_id, {
       method: 'POST',
       headers,
     })
-    const data = await webrtcConnections.json()
-    return data
+    if (kickConn.ok) return true
+    else throw new Error("Couldn't kickConn " + kickConn.statusText)
   }
   async kickWebrtcConnection(kick_id: string) {
     const headers: any = {
       'Content-Type': 'application/json',
     }
     if (this.auth) headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password)
-    const webrtcConnections = await fetch(this.uri + '/v1/webrtcconns/kick/' + kick_id, {
+    const kickWebrtcConn = await fetch(this.uri + '/v1/webrtcconns/kick/' + kick_id, {
       method: 'POST',
       headers,
     })
-    const data = await webrtcConnections.json()
-    return data
+    if (kickWebrtcConn.ok) return true
+    else throw new Error("Couldn't kickWebrtcConn " + kickWebrtcConn.statusText)
   }
 }
