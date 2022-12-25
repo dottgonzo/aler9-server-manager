@@ -208,110 +208,142 @@ export type TRTSPSessions = {
 
 export default class Aler9StreamServer {
   uri: string = ''
-  constructor(cfg: { uri: string }) {
+  auth?: { type: 'basic'; username: string; password: string }
+  constructor(cfg: { uri: string; auth?: { type: 'basic'; username: string; password: string } }) {
     if (cfg.uri) this.uri = cfg.uri
     else throw new Error('uri is required')
+    if (cfg.auth) this.auth = cfg.auth
   }
 
   async getConfig() {
+    const headers: any = {
+      'Content-Type': 'application/json',
+    }
+    if (this.auth)
+      headers.Authorization = 'Basic ' + Buffer.from(this.auth?.username + ':' + this.auth?.password).toString('base64')
     const config = await fetch(this.uri + '/v1/config/get', {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
     })
     const data: TAler9Config = await config.json()
     return data
   }
   async getPaths() {
+    const headers: any = {
+      'Content-Type': 'application/json',
+    }
+    if (this.auth)
+      headers.Authorization = 'Basic ' + Buffer.from(this.auth?.username + ':' + this.auth?.password).toString('base64')
     const pathList = await fetch(this.uri + '/v1/paths/list', {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
     })
     const data: TPathList = await pathList.json()
     return data
   }
   async addPath(pathName: string, path: TAler9PathAddOrEdit) {
+    const headers: any = {
+      'Content-Type': 'application/json',
+    }
+    if (this.auth)
+      headers.Authorization = 'Basic ' + Buffer.from(this.auth?.username + ':' + this.auth?.password).toString('base64')
     const addPathToServer = await fetch(this.uri + '/v1/config/paths/add/' + pathName, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
       body: JSON.stringify(path),
     })
     const data = await addPathToServer.json()
     return data
   }
   async editPath(pathName: string, path: TAler9PathAddOrEdit) {
+    const headers: any = {
+      'Content-Type': 'application/json',
+    }
+    if (this.auth)
+      headers.Authorization = 'Basic ' + Buffer.from(this.auth?.username + ':' + this.auth?.password).toString('base64')
     const editPathOnServer = await fetch(this.uri + '/v1/config/paths/edit/' + pathName, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
       body: JSON.stringify(path),
     })
     const data = await editPathOnServer.json()
     return data
   }
   async deletePath(pathName: string) {
+    const headers: any = {
+      'Content-Type': 'application/json',
+    }
+    if (this.auth)
+      headers.Authorization = 'Basic ' + Buffer.from(this.auth?.username + ':' + this.auth?.password).toString('base64')
     const deletePathFromServer = await fetch(this.uri + '/v1/config/paths/remove/' + pathName, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
     })
     const data = await deletePathFromServer.json()
     return data
   }
   async getRtspConnections() {
+    const headers: any = {
+      'Content-Type': 'application/json',
+    }
+    if (this.auth)
+      headers.Authorization = 'Basic ' + Buffer.from(this.auth?.username + ':' + this.auth?.password).toString('base64')
     const rtspConnections = await fetch(this.uri + '/v1/rtspconns/list', {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
     })
     const data: TConnections = await rtspConnections.json()
     return data
   }
 
   async getRtspSessions() {
+    const headers: any = {
+      'Content-Type': 'application/json',
+    }
+    if (this.auth)
+      headers.Authorization = 'Basic ' + Buffer.from(this.auth?.username + ':' + this.auth?.password).toString('base64')
     const rtspSessions = await fetch(this.uri + '/v1/rtspsessions/list', {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
     })
     const data: TRTSPSessions = await rtspSessions.json()
     return data
   }
   async getWebrtcConnections() {
+    const headers: any = {
+      'Content-Type': 'application/json',
+    }
+    if (this.auth)
+      headers.Authorization = 'Basic ' + Buffer.from(this.auth?.username + ':' + this.auth?.password).toString('base64')
     const webrtcConnections = await fetch(this.uri + '/v1/webrtcconns/list', {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
     })
     const data: TConnections = await webrtcConnections.json()
     return data
   }
   async kickRtspSession(kick_id: string) {
+    const headers: any = {
+      'Content-Type': 'application/json',
+    }
+    if (this.auth)
+      headers.Authorization = 'Basic ' + Buffer.from(this.auth?.username + ':' + this.auth?.password).toString('base64')
     const webrtcConnections = await fetch(this.uri + '/v1/rtspsessions/kick/' + kick_id, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
     })
     const data = await webrtcConnections.json()
     return data
   }
   async kickWebrtcConnection(kick_id: string) {
+    const headers: any = {
+      'Content-Type': 'application/json',
+    }
+    if (this.auth)
+      headers.Authorization = 'Basic ' + Buffer.from(this.auth?.username + ':' + this.auth?.password).toString('base64')
     const webrtcConnections = await fetch(this.uri + '/v1/webrtcconns/kick/' + kick_id, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
     })
     const data = await webrtcConnections.json()
     return data
