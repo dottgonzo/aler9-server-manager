@@ -1,6 +1,6 @@
 {
   "name": "aler9-server-manager",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "aler9 multiprotocol media server API manager",
   "main": "index.mjs",
   "scripts": {
