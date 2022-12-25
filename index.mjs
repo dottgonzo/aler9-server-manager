@@ -1,3 +1,57 @@
+const Base64 = {
+    // private property
+    _keyStr: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=',
+    // public method for encoding
+    encode: function (input) {
+        let output = '';
+        let chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+        let i = 0;
+        input = Base64._utf8_encode(input);
+        while (i < input.length) {
+            chr1 = input.charCodeAt(i++);
+            chr2 = input.charCodeAt(i++);
+            chr3 = input.charCodeAt(i++);
+            enc1 = chr1 >> 2;
+            enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+            enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+            enc4 = chr3 & 63;
+            if (isNaN(chr2)) {
+                enc3 = enc4 = 64;
+            }
+            else if (isNaN(chr3)) {
+                enc4 = 64;
+            }
+            output =
+                output +
+                    Base64._keyStr.charAt(enc1) +
+                    Base64._keyStr.charAt(enc2) +
+                    Base64._keyStr.charAt(enc3) +
+                    Base64._keyStr.charAt(enc4);
+        }
+        return output;
+    },
+    // private method for UTF-8 encoding
+    _utf8_encode: function (string) {
+        string = string.replace(/\r\n/g, '\n');
+        let utftext = '';
+        for (let n = 0; n < string.length; n++) {
+            let c = string.charCodeAt(n);
+            if (c < 128) {
+                utftext += String.fromCharCode(c);
+            }
+            else if (c > 127 && c < 2048) {
+                utftext += String.fromCharCode((c >> 6) | 192);
+                utftext += String.fromCharCode((c & 63) | 128);
+            }
+            else {
+                utftext += String.fromCharCode((c >> 12) | 224);
+                utftext += String.fromCharCode(((c >> 6) & 63) | 128);
+                utftext += String.fromCharCode((c & 63) | 128);
+            }
+        }
+        return utftext;
+    },
+};
 export default class Aler9StreamServer {
     constructor(cfg) {
         this.uri = '';
@@ -13,7 +67,7 @@ export default class Aler9StreamServer {
             'Content-Type': 'application/json',
         };
         if (this.auth)
-            headers.Authorization = 'Basic ' + Buffer.from(this.auth?.username + ':' + this.auth?.password).toString('base64');
+            headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password);
         const config = await fetch(this.uri + '/v1/config/get', {
             method: 'GET',
             headers,
@@ -26,7 +80,7 @@ export default class Aler9StreamServer {
             'Content-Type': 'application/json',
         };
         if (this.auth)
-            headers.Authorization = 'Basic ' + Buffer.from(this.auth?.username + ':' + this.auth?.password).toString('base64');
+            headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password);
         const pathList = await fetch(this.uri + '/v1/paths/list', {
             method: 'GET',
             headers,
@@ -39,7 +93,7 @@ export default class Aler9StreamServer {
             'Content-Type': 'application/json',
         };
         if (this.auth)
-            headers.Authorization = 'Basic ' + Buffer.from(this.auth?.username + ':' + this.auth?.password).toString('base64');
+            headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password);
         const addPathToServer = await fetch(this.uri + '/v1/config/paths/add/' + pathName, {
             method: 'POST',
             headers,
@@ -53,7 +107,7 @@ export default class Aler9StreamServer {
             'Content-Type': 'application/json',
         };
         if (this.auth)
-            headers.Authorization = 'Basic ' + Buffer.from(this.auth?.username + ':' + this.auth?.password).toString('base64');
+            headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password);
         const editPathOnServer = await fetch(this.uri + '/v1/config/paths/edit/' + pathName, {
             method: 'POST',
             headers,
@@ -67,7 +121,7 @@ export default class Aler9StreamServer {
             'Content-Type': 'application/json',
         };
         if (this.auth)
-            headers.Authorization = 'Basic ' + Buffer.from(this.auth?.username + ':' + this.auth?.password).toString('base64');
+            headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password);
         const deletePathFromServer = await fetch(this.uri + '/v1/config/paths/remove/' + pathName, {
             method: 'POST',
             headers,
@@ -80,7 +134,7 @@ export default class Aler9StreamServer {
             'Content-Type': 'application/json',
         };
         if (this.auth)
-            headers.Authorization = 'Basic ' + Buffer.from(this.auth?.username + ':' + this.auth?.password).toString('base64');
+            headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password);
         const rtspConnections = await fetch(this.uri + '/v1/rtspconns/list', {
             method: 'GET',
             headers,
@@ -93,7 +147,7 @@ export default class Aler9StreamServer {
             'Content-Type': 'application/json',
         };
         if (this.auth)
-            headers.Authorization = 'Basic ' + Buffer.from(this.auth?.username + ':' + this.auth?.password).toString('base64');
+            headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password);
         const rtspSessions = await fetch(this.uri + '/v1/rtspsessions/list', {
             method: 'GET',
             headers,
@@ -106,7 +160,7 @@ export default class Aler9StreamServer {
             'Content-Type': 'application/json',
         };
         if (this.auth)
-            headers.Authorization = 'Basic ' + Buffer.from(this.auth?.username + ':' + this.auth?.password).toString('base64');
+            headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password);
         const webrtcConnections = await fetch(this.uri + '/v1/webrtcconns/list', {
             method: 'GET',
             headers,
@@ -119,7 +173,7 @@ export default class Aler9StreamServer {
             'Content-Type': 'application/json',
         };
         if (this.auth)
-            headers.Authorization = 'Basic ' + Buffer.from(this.auth?.username + ':' + this.auth?.password).toString('base64');
+            headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password);
         const webrtcConnections = await fetch(this.uri + '/v1/rtspsessions/kick/' + kick_id, {
             method: 'POST',
             headers,
@@ -132,7 +186,7 @@ export default class Aler9StreamServer {
             'Content-Type': 'application/json',
         };
         if (this.auth)
-            headers.Authorization = 'Basic ' + Buffer.from(this.auth?.username + ':' + this.auth?.password).toString('base64');
+            headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password);
         const webrtcConnections = await fetch(this.uri + '/v1/webrtcconns/kick/' + kick_id, {
             method: 'POST',
             headers,
