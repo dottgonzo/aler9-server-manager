@@ -301,7 +301,7 @@ export default class Aler9StreamServer {
     const data: TPathList = await pathList.json()
     return data
   }
-  async addPath(pathName: string, path: TAler9PathAddOrEdit) {
+  async addPath(pathName: string, path: Partial<TAler9PathAddOrEdit>) {
     const headers: any = {
       'Content-Type': 'application/json',
     }
@@ -314,7 +314,7 @@ export default class Aler9StreamServer {
     const data = await addPathToServer.json()
     return data
   }
-  async editPath(pathName: string, path: TAler9PathAddOrEdit) {
+  async editPath(pathName: string, path: Partial<TAler9PathAddOrEdit>) {
     const headers: any = {
       'Content-Type': 'application/json',
     }
