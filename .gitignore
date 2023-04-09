@@ -35,4 +35,4 @@ config/runtime.yaml
 
 *.js.map
 
-.vscode/.launch.json
+.vscode/launch.json
