@@ -282,10 +282,15 @@ export default class Aler9StreamServer {
       'Content-Type': 'application/json',
     }
     if (this.auth) headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password)
-    const config = await fetch(this.uri + '/v1/config/get', {
+    const uri = this.uri + '/v1/config/get'
+    const config = await fetch(uri, {
       method: 'GET',
       headers,
     })
+    if (!config.ok) {
+      console.error('Error getting config from ' + uri, config.statusText)
+      throw new Error("Couldn't get config from " + uri)
+    }
     const data: TAler9Config = await config.json()
     return data
   }
@@ -294,10 +299,15 @@ export default class Aler9StreamServer {
       'Content-Type': 'application/json',
     }
     if (this.auth) headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password)
-    const pathList = await fetch(this.uri + '/v1/paths/list', {
+    const uri = this.uri + '/v1/paths/list'
+    const pathList = await fetch(uri, {
       method: 'GET',
       headers,
     })
+    if (!pathList.ok) {
+      console.error('Error getting path list from ' + uri, pathList.statusText)
+      throw new Error("Couldn't get path list from " + uri)
+    }
     const data: TPathList = await pathList.json()
     return data
   }
@@ -344,10 +354,15 @@ export default class Aler9StreamServer {
       'Content-Type': 'application/json',
     }
     if (this.auth) headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password)
-    const rtspConnections = await fetch(this.uri + '/v1/rtspconns/list', {
+    const uri = this.uri + '/v1/rtspconns/list'
+    const rtspConnections = await fetch(uri, {
       method: 'GET',
       headers,
     })
+    if (!rtspConnections.ok) {
+      console.error('Error rtspConnections from ' + uri, rtspConnections.statusText)
+      throw new Error('Error rtspConnections from ' + uri)
+    }
     const data: TConnections = await rtspConnections.json()
     return data
   }
@@ -357,10 +372,15 @@ export default class Aler9StreamServer {
       'Content-Type': 'application/json',
     }
     if (this.auth) headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password)
-    const rtspSessions = await fetch(this.uri + '/v1/rtspsessions/list', {
+    const uri = this.uri + '/v1/rtspsessions/list'
+    const rtspSessions = await fetch(uri, {
       method: 'GET',
       headers,
     })
+    if (!rtspSessions.ok) {
+      console.error('Error rtspSessions from ' + uri, rtspSessions.statusText)
+      throw new Error('Error rtspSessions from ' + uri)
+    }
     const data: TRTSPSessions = await rtspSessions.json()
     return data
   }
@@ -369,10 +389,15 @@ export default class Aler9StreamServer {
       'Content-Type': 'application/json',
     }
     if (this.auth) headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password)
-    const webrtcConnections = await fetch(this.uri + '/v1/webrtcconns/list', {
+    const uri = this.uri + '/v1/webrtcconns/list'
+    const webrtcConnections = await fetch(uri, {
       method: 'GET',
       headers,
     })
+    if (!webrtcConnections.ok) {
+      console.error('Error webrtcConnections from ' + uri, webrtcConnections.statusText)
+      throw new Error('Error webrtcConnections from ' + uri)
+    }
     const data: TConnections = await webrtcConnections.json()
     return data
   }
