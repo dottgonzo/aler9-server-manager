@@ -172,7 +172,7 @@ export type TPathList = {
         type: string
         id: string
       }
-      sourceReady: true
+      sourceReady: boolean
       tracks: string[]
       bytesReceived: number
       readers: {
