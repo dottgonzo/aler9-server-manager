@@ -54,6 +54,9 @@ export type TAler9Config = {
   webrtcAllowOrigin: string
   webrtcTrustedProxies: string[]
   webrtcICEServers: string[]
+  webrtcICETCPMuxAddress: string
+  webrtcICEUDPMuxAddress: string
+  webrtcICEHostNAT1To1IPs: string[]
   paths: {
     [x: string]: {
       source: string
