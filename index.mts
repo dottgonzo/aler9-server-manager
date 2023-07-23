@@ -277,6 +277,23 @@ export default class Aler9StreamServer {
     if (cfg.auth) this.auth = cfg.auth
   }
 
+  async setConfig(config: Partial<TAler9Config>) {
+    const headers: any = {
+      'Content-Type': 'application/json',
+    }
+    if (this.auth) headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password)
+    const uri = this.uri + '/v1/config/set'
+    const setConfig = await fetch(uri, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(config),
+    })
+    if (!setConfig.ok) {
+      console.error('Error setting config from ' + uri, setConfig.statusText)
+      throw new Error("Couldn't set config from " + uri)
+    }
+  }
+
   async getConfig() {
     const headers: any = {
       'Content-Type': 'application/json',
