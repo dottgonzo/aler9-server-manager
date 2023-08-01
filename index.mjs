@@ -68,7 +68,7 @@ export default class Aler9StreamServer {
         };
         if (this.auth)
             headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password);
-        const uri = this.uri + '/v1/config/set';
+        const uri = this.uri + '/v2/config/set';
         const setConfig = await fetch(uri, {
             method: 'POST',
             headers,
@@ -85,7 +85,7 @@ export default class Aler9StreamServer {
         };
         if (this.auth)
             headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password);
-        const uri = this.uri + '/v1/config/get';
+        const uri = this.uri + '/v2/config/get';
         const config = await fetch(uri, {
             method: 'GET',
             headers,
@@ -103,7 +103,7 @@ export default class Aler9StreamServer {
         };
         if (this.auth)
             headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password);
-        const uri = this.uri + '/v1/paths/list';
+        const uri = this.uri + '/v2/paths/list';
         const pathList = await fetch(uri, {
             method: 'GET',
             headers,
@@ -121,7 +121,7 @@ export default class Aler9StreamServer {
         };
         if (this.auth)
             headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password);
-        const addPathToServer = await fetch(this.uri + '/v1/config/paths/add/' + pathName, {
+        const addPathToServer = await fetch(this.uri + '/v2/config/paths/add/' + pathName, {
             method: 'POST',
             headers,
             body: JSON.stringify(path),
@@ -137,7 +137,7 @@ export default class Aler9StreamServer {
         };
         if (this.auth)
             headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password);
-        const editPathOnServer = await fetch(this.uri + '/v1/config/paths/edit/' + pathName, {
+        const editPathOnServer = await fetch(this.uri + '/v2/config/paths/edit/' + pathName, {
             method: 'POST',
             headers,
             body: JSON.stringify(path),
@@ -153,7 +153,7 @@ export default class Aler9StreamServer {
         };
         if (this.auth)
             headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password);
-        const deletePathFromServer = await fetch(this.uri + '/v1/config/paths/remove/' + pathName, {
+        const deletePathFromServer = await fetch(this.uri + '/v2/config/paths/remove/' + pathName, {
             method: 'POST',
             headers,
         });
@@ -168,7 +168,7 @@ export default class Aler9StreamServer {
         };
         if (this.auth)
             headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password);
-        const uri = this.uri + '/v1/rtspconns/list';
+        const uri = this.uri + '/v2/rtspconns/list';
         const rtspConnections = await fetch(uri, {
             method: 'GET',
             headers,
@@ -186,7 +186,7 @@ export default class Aler9StreamServer {
         };
         if (this.auth)
             headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password);
-        const uri = this.uri + '/v1/rtspsessions/list';
+        const uri = this.uri + '/v2/rtspsessions/list';
         const rtspSessions = await fetch(uri, {
             method: 'GET',
             headers,
@@ -204,7 +204,7 @@ export default class Aler9StreamServer {
         };
         if (this.auth)
             headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password);
-        const uri = this.uri + '/v1/webrtcconns/list';
+        const uri = this.uri + '/v2/webrtcconns/list';
         const webrtcConnections = await fetch(uri, {
             method: 'GET',
             headers,
@@ -222,7 +222,7 @@ export default class Aler9StreamServer {
         };
         if (this.auth)
             headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password);
-        const kickConn = await fetch(this.uri + '/v1/rtspsessions/kick/' + kick_id, {
+        const kickConn = await fetch(this.uri + '/v2/rtspsessions/kick/' + kick_id, {
             method: 'POST',
             headers,
         });
@@ -237,7 +237,7 @@ export default class Aler9StreamServer {
         };
         if (this.auth)
             headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password);
-        const kickWebrtcConn = await fetch(this.uri + '/v1/webrtcconns/kick/' + kick_id, {
+        const kickWebrtcConn = await fetch(this.uri + '/v2/webrtcconns/kick/' + kick_id, {
             method: 'POST',
             headers,
         });
