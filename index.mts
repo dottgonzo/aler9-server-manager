@@ -167,48 +167,48 @@ export type TAler9PathAddOrEdit = {
 }
 
 export type TPathList = {
+  pageCount: number
   items: {
-    [x: string]: {
-      confName: string
-      conf: TAler9PathAddOrEdit
-      source: {
-        type: string
-        id: string
-      }
-      sourceReady: boolean
-      ready: boolean
-      readyTime: string
-      tracks: string[]
-      bytesReceived: number
-      readers: {
-        type: string
-        id: string
-      }[]
+    name: string
+    confName: string
+    conf: TAler9PathAddOrEdit
+    source: {
+      type: string
+      id: string
     }
-  }
+    sourceReady: boolean
+    ready: boolean
+    readyTime: string
+    tracks: string[]
+    bytesReceived: number
+    readers: {
+      type: string
+      id: string
+    }[]
+  }[]
 }
 
 export type TConnections = {
+  pageCount: number
   items: {
-    [x: string]: {
-      created: string
-      remoteAddr: string
-      bytesReceived: number
-      bytesSent: number
-    }
-  }
+    id: string
+    created: string
+    remoteAddr: string
+    bytesReceived: number
+    bytesSent: number
+  }[]
 }
 
 export type TRTSPSessions = {
+  pageCount: number
   items: {
-    [x: string]: {
-      created: string
-      remoteAddr: string
-      bytesReceived: number
-      bytesSent: number
-      state: string
-    }
-  }
+    id: string
+    created: string
+    remoteAddr: string
+    bytesReceived: number
+    bytesSent: number
+    state: string
+  }[]
 }
 const Base64 = {
   // private property
