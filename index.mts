@@ -1,191 +1,157 @@
 export type TAler9Config = {
-  logLevel: string
-  logDestinations: string[]
-  logFile: string
-  readTimeout: string
-  writeTimeout: string
-  readBufferCount: number
-  externalAuthenticationURL: string
-  api: boolean
-  apiAddress: string
-  metrics: boolean
-  metricsAddress: string
-  pprof: boolean
-  pprofAddress: string
-  runOnConnect: string
-  runOnConnectRestart: boolean
-  rtspDisable: boolean
-  protocols: string[]
-  encryption: string
-  rtspAddress: string
-  rtspsAddress: string
-  rtpAddress: string
-  rtcpAddress: string
-  multicastIPRange: string
-  multicastRTPPort: number
-  multicastRTCPPort: number
-  serverKey: string
-  serverCert: string
-  authMethods: string[]
-  rtmpDisable: boolean
-  rtmpAddress: string
-  rtmpEncryption: string
-  rtmpsAddress: string
-  rtmpServerKey: string
-  rtmpServerCert: string
-  hlsDisable: boolean
-  hlsAddress: string
-  hlsEncryption: boolean
-  hlsServerKey: string
-  hlsServerCert: string
-  hlsAlwaysRemux: boolean
-  hlsVariant: string
-  hlsSegmentCount: 7
-  hlsSegmentDuration: string
-  hlsPartDuration: string
-  hlsSegmentMaxSize: string
-  hlsAllowOrigin: string
-  hlsTrustedProxies: []
-  webrtcDisable: boolean
-  webrtcAddress: string
-  webrtcEncryption: boolean
-  webrtcServerKey: string
-  webrtcServerCert: string
-  webrtcAllowOrigin: string
-  webrtcTrustedProxies: string[]
-  webrtcICEServers: string[]
-  webrtcICETCPMuxAddress: string
-  webrtcICEUDPMuxAddress: string
-  webrtcICEHostNAT1To1IPs: string[]
-  paths: {
-    [x: string]: {
-      source: string
-      sourceProtocol: string
-      sourceAnyPortEnable: boolean
-      sourceFingerprint: string
-      sourceOnDemand: boolean
-      sourceOnDemandStartTimeout: string
-      sourceOnDemandCloseAfter: string
-      sourceRedirect: string
-      disablePublisherOverride: boolean
-      fallback: string
-      rpiCameraCamID: number
-      rpiCameraWidth: number
-      rpiCameraHeight: number
-      rpiCameraHFlip: boolean
-      rpiCameraVFlip: boolean
-      rpiCameraBrightness: number
-      rpiCameraContrast: number
-      rpiCameraSaturation: number
-      rpiCameraSharpness: number
-      rpiCameraExposure: string
-      rpiCameraAWB: string
-      rpiCameraDenoise: string
-      rpiCameraShutter: number
-      rpiCameraMetering: string
-      rpiCameraGain: number
-      rpiCameraEV: number
-      rpiCameraROI: string
-      rpiCameraTuningFile: string
-      rpiCameraMode: string
-      rpiCameraFPS: number
-      rpiCameraIDRPeriod: number
-      rpiCameraBitrate: number
-      rpiCameraProfile: string
-      rpiCameraLevel: string
-      publishUser: string
-      publishPass: string
-      publishIPs: []
-      readUser: string
-      readPass: string
-      readIPs: []
-      runOnInit: string
-      runOnInitRestart: boolean
-      runOnDemand: string
-      runOnDemandRestart: boolean
-      runOnDemandStartTimeout: string
-      runOnDemandCloseAfter: string
-      runOnReady: string
-      runOnReadyRestart: boolean
-      runOnRead: string
-      runOnReadRestart: boolean
-    }
-  }
+  logLevel?: string
+  logDestinations?: string[]
+  logFile?: string
+  readTimeout?: string
+  writeTimeout?: string
+  writeQueueSize?: number
+  udpMaxPayloadSize?: number
+  externalAuthenticationURL?: string
+  api?: boolean
+  apiAddress?: string
+  metrics?: boolean
+  metricsAddress?: string
+  pprof?: boolean
+  pprofAddress?: string
+  runOnConnect?: string
+  runOnConnectRestart?: boolean
+  runOnDisconnect?: string
+  rtsp?: boolean
+  protocols?: string[]
+  encryption?: string
+  rtspAddress?: string
+  rtspsAddress?: string
+  rtpAddress?: string
+  rtcpAddress?: string
+  multicastIPRange?: string
+  multicastRTPPort?: number
+  multicastRTCPPort?: number
+  serverKey?: string
+  serverCert?: string
+  authMethods?: string[]
+  rtmp?: boolean
+  rtmpAddress?: string
+  rtmpEncryption?: string
+  rtmpsAddress?: string
+  rtmpServerKey?: string
+  rtmpServerCert?: string
+  hls?: boolean
+  hlsAddress?: string
+  hlsEncryption?: boolean
+  hlsServerKey?: string
+  hlsServerCert?: string
+  hlsAlwaysRemux?: boolean
+  hlsVariant?: string
+  hlsSegmentCount?: number
+  hlsSegmentDuration?: string
+  hlsPartDuration?: string
+  hlsSegmentMaxSize?: string
+  hlsAllowOrigin?: string
+  hlsTrustedProxies?: string[]
+  hlsDirectory?: string
+  webrtc?: boolean
+  webrtcAddress?: string
+  webrtcEncryption?: boolean
+  webrtcServerKey?: string
+  webrtcServerCert?: string
+  webrtcAllowOrigin?: string
+  webrtcTrustedProxies?: string[]
+  webrtcLocalUDPAddress?: string
+  webrtcLocalTCPAddress?: string
+  webrtcIPsFromInterfaces?: boolean
+  webrtcIPsFromInterfacesList?: string[]
+  webrtcAdditionalHosts?: string[]
+  webrtcICEServers2?: {
+    url?: string
+    username?: string
+    password?: string
+  }[]
+  srt?: boolean
+  srtAddress?: string
+  record?: boolean
+  recordPath?: string
+  recordFormat?: string
+  recordPartDuration?: string
+  recordSegmentDuration?: string
+  recordDeleteAfter?: string
 }
 
 export type TAler9PathAddOrEdit = {
-  source: string
-  sourceProtocol: string
-  sourceAnyPortEnable: boolean
-  sourceFingerprint: string
-  sourceOnDemand: boolean
-  sourceOnDemandStartTimeout: string
-  sourceOnDemandCloseAfter: string
-  sourceRedirect: string
-  disablePublisherOverride: boolean
-  fallback: string
-  rpiCameraCamID: number
-  rpiCameraWidth: number
-  rpiCameraHeight: number
-  rpiCameraHFlip: boolean
-  rpiCameraVFlip: boolean
-  rpiCameraBrightness: number
-  rpiCameraContrast: number
-  rpiCameraSaturation: number
-  rpiCameraSharpness: number
-  rpiCameraExposure: string
-  rpiCameraAWB: string
-  rpiCameraDenoise: string
-  rpiCameraShutter: number
-  rpiCameraMetering: string
-  rpiCameraGain: number
-  rpiCameraEV: number
-  rpiCameraROI: string
-  rpiCameraTuningFile: string
-  rpiCameraMode: string
-  rpiCameraFPS: number
-  rpiCameraIDRPeriod: number
-  rpiCameraBitrate: number
-  rpiCameraProfile: string
-  rpiCameraLevel: string
-  publishUser: string
-  publishPass: string
-  publishIPs: string[]
-  readUser: string
-  readPass: string
-  readIPs: string[]
-  runOnInit: string
-  runOnInitRestart: boolean
-  runOnDemand: string
-  runOnDemandRestart: boolean
-  runOnDemandStartTimeout: string
-  runOnDemandCloseAfter: string
-  runOnReady: string
-  runOnReadyRestart: boolean
-  runOnRead: string
-  runOnReadRestart: boolean
+  name?: string
+  source?: string
+  sourceFingerprint?: string
+  sourceOnDemand?: boolean
+  sourceOnDemandStartTimeout?: string
+  sourceOnDemandCloseAfter?: string
+  maxReaders?: number
+  srtReadPassphrase?: string
+  record?: boolean
+  publishUser?: string
+  publishPass?: string
+  publishIPs?: string[]
+  readUser?: string
+  readPass?: string
+  readIPs?: string[]
+  overridePublisher?: boolean
+  fallback?: string
+  srtPublishPassphrase?: string
+  rtspTransport?: string
+  rtspAnyPort?: boolean
+  rtspRangeType?: string
+  rtspRangeStart?: string
+  sourceRedirect?: string
+  rpiCameraCamID?: number
+  rpiCameraWidth?: number
+  rpiCameraHeight?: number
+  rpiCameraHFlip?: boolean
+  rpiCameraVFlip?: boolean
+  rpiCameraBrightness?: number
+  rpiCameraContrast?: number
+  rpiCameraSaturation?: number
+  rpiCameraSharpness?: number
+  rpiCameraExposure?: string
+  rpiCameraAWB?: string
+  rpiCameraDenoise?: string
+  rpiCameraShutter?: number
+  rpiCameraMetering?: string
+  rpiCameraGain?: number
+  rpiCameraEV?: number
+  rpiCameraROI?: string
+  rpiCameraHDR?: boolean
+  rpiCameraTuningFile?: string
+  rpiCameraMode?: string
+  rpiCameraFPS?: number
+  rpiCameraIDRPeriod?: number
+  rpiCameraBitrate?: number
+  rpiCameraProfile?: string
+  rpiCameraLevel?: string
+  rpiCameraAfMode?: string
+  rpiCameraAfRange?: string
+  rpiCameraAfSpeed?: string
+  rpiCameraLensPosition?: number
+  rpiCameraAfWindow?: string
+  rpiCameraTextOverlayEnable?: boolean
+  rpiCameraTextOverlay?: string
+  runOnInit?: string
+  runOnInitRestart?: boolean
+  runOnDemand?: string
+  runOnDemandRestart?: boolean
+  runOnDemandStartTimeout?: string
+  runOnDemandCloseAfter?: string
+  runOnUnDemand?: string
+  runOnReady?: string
+  runOnReadyRestart?: boolean
+  runOnNotReady?: string
+  runOnRead?: string
+  runOnReadRestart?: boolean
+  runOnUnread?: string
+  runOnRecordSegmentCreate?: string
+  runOnRecordSegmentComplete?: string
 }
 
 export type TPathList = {
   pageCount: number
-  items: {
-    name: string
-    confName: string
-    conf: TAler9PathAddOrEdit
-    source: {
-      type: string
-      id: string
-    }
-    sourceReady: boolean
-    ready: boolean
-    readyTime: string
-    tracks: string[]
-    bytesReceived: number
-    readers: {
-      type: string
-      id: string
-    }[]
-  }[]
+  items: TAler9PathAddOrEdit[]
 }
 
 export type TConnections = {
@@ -287,7 +253,7 @@ export default class Aler9StreamServer {
       'Content-Type': 'application/json',
     }
     if (this.auth) headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password)
-    const uri = this.uri + '/v2/config/set'
+    const uri = this.uri + '/v3/config/set'
     const setConfig = await fetch(uri, {
       method: 'POST',
       headers,
@@ -304,7 +270,7 @@ export default class Aler9StreamServer {
       'Content-Type': 'application/json',
     }
     if (this.auth) headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password)
-    const uri = this.uri + '/v2/config/get'
+    const uri = this.uri + '/v3/config/get'
     const config = await fetch(uri, {
       method: 'GET',
       headers,
@@ -321,7 +287,7 @@ export default class Aler9StreamServer {
       'Content-Type': 'application/json',
     }
     if (this.auth) headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password)
-    const uri = this.uri + '/v2/paths/list'
+    const uri = this.uri + '/v3/paths/list'
     const pathList = await fetch(uri, {
       method: 'GET',
       headers,
@@ -338,7 +304,7 @@ export default class Aler9StreamServer {
       'Content-Type': 'application/json',
     }
     if (this.auth) headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password)
-    const addPathToServer = await fetch(this.uri + '/v2/config/paths/add/' + pathName, {
+    const addPathToServer = await fetch(this.uri + '/v3/config/paths/add/' + pathName, {
       method: 'POST',
       headers,
       body: JSON.stringify(path),
@@ -351,7 +317,7 @@ export default class Aler9StreamServer {
       'Content-Type': 'application/json',
     }
     if (this.auth) headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password)
-    const editPathOnServer = await fetch(this.uri + '/v2/config/paths/edit/' + pathName, {
+    const editPathOnServer = await fetch(this.uri + '/v3/config/paths/edit/' + pathName, {
       method: 'POST',
       headers,
       body: JSON.stringify(path),
@@ -364,7 +330,7 @@ export default class Aler9StreamServer {
       'Content-Type': 'application/json',
     }
     if (this.auth) headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password)
-    const deletePathFromServer = await fetch(this.uri + '/v2/config/paths/remove/' + pathName, {
+    const deletePathFromServer = await fetch(this.uri + '/v3/config/paths/remove/' + pathName, {
       method: 'POST',
       headers,
     })
@@ -376,7 +342,7 @@ export default class Aler9StreamServer {
       'Content-Type': 'application/json',
     }
     if (this.auth) headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password)
-    const uri = this.uri + '/v2/rtspconns/list'
+    const uri = this.uri + '/v3/rtspconns/list'
     const rtspConnections = await fetch(uri, {
       method: 'GET',
       headers,
@@ -394,7 +360,7 @@ export default class Aler9StreamServer {
       'Content-Type': 'application/json',
     }
     if (this.auth) headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password)
-    const uri = this.uri + '/v2/rtspsessions/list'
+    const uri = this.uri + '/v3/rtspsessions/list'
     const rtspSessions = await fetch(uri, {
       method: 'GET',
       headers,
@@ -411,7 +377,7 @@ export default class Aler9StreamServer {
       'Content-Type': 'application/json',
     }
     if (this.auth) headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password)
-    const uri = this.uri + '/v2/webrtcconns/list'
+    const uri = this.uri + '/v3/webrtcconns/list'
     const webrtcConnections = await fetch(uri, {
       method: 'GET',
       headers,
@@ -428,7 +394,7 @@ export default class Aler9StreamServer {
       'Content-Type': 'application/json',
     }
     if (this.auth) headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password)
-    const kickConn = await fetch(this.uri + '/v2/rtspsessions/kick/' + kick_id, {
+    const kickConn = await fetch(this.uri + '/v3/rtspsessions/kick/' + kick_id, {
       method: 'POST',
       headers,
     })
@@ -440,7 +406,7 @@ export default class Aler9StreamServer {
       'Content-Type': 'application/json',
     }
     if (this.auth) headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password)
-    const kickWebrtcConn = await fetch(this.uri + '/v2/webrtcconns/kick/' + kick_id, {
+    const kickWebrtcConn = await fetch(this.uri + '/v3/webrtcconns/kick/' + kick_id, {
       method: 'POST',
       headers,
     })
