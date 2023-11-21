@@ -75,10 +75,29 @@ export type TAler9Config = {
   recordSegmentDuration?: string
   recordDeleteAfter?: string
 }
+export type TAler9PathItem = {
+  name: string
+  confName: string
+  source: {
+    type: string
+    id: string
+  }
+  ready: true
+  readyTime: string
+  tracks: string[]
+  bytesReceived: 0
+  bytesSent: 0
+  readers: [
+    {
+      type: string
+      id: string
+    }
+  ]
+}
 
-export type TAler9PathAddOrEdit = {
-  name?: string
-  source?: string
+export type TAler9PathConfig = {
+  name: string
+  source: string
   sourceFingerprint?: string
   sourceOnDemand?: boolean
   sourceOnDemandStartTimeout?: string
@@ -149,11 +168,14 @@ export type TAler9PathAddOrEdit = {
   runOnRecordSegmentComplete?: string
 }
 
-export type TPathList = {
+export type TPathConfigList = {
   pageCount: number
-  items: TAler9PathAddOrEdit[]
+  items: TAler9Config[]
 }
-
+export type TAler9PathsList = {
+  pageCount: 0
+  items: TAler9PathItem[]
+}
 export type TConnections = {
   pageCount: number
   items: {
@@ -296,10 +318,10 @@ export default class Aler9StreamServer {
       console.error('Error getting path list from ' + uri, pathList.statusText)
       throw new Error("Couldn't get path list from " + uri)
     }
-    const data: TPathList = await pathList.json()
+    const data: TAler9PathsList = await pathList.json()
     return data
   }
-  async addPath(pathName: string, path: Partial<TAler9PathAddOrEdit>) {
+  async addPath(pathName: string, path: Partial<TAler9PathConfig>) {
     const headers: any = {
       'Content-Type': 'application/json',
     }
@@ -312,7 +334,7 @@ export default class Aler9StreamServer {
     if (addPathToServer.ok) return true
     else throw new Error("Couldn't add path " + addPathToServer.statusText)
   }
-  async editPath(pathName: string, path: Partial<TAler9PathAddOrEdit>) {
+  async editPath(pathName: string, path: Partial<TAler9PathConfig>) {
     const headers: any = {
       'Content-Type': 'application/json',
     }
