@@ -115,6 +115,24 @@ export default class Aler9StreamServer {
         const data = await pathList.json();
         return data;
     }
+    async getPathsConfigs() {
+        const headers = {
+            'Content-Type': 'application/json',
+        };
+        if (this.auth)
+            headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password);
+        const uri = this.uri + '/v3/config/paths/list';
+        const pathList = await fetch(uri, {
+            method: 'GET',
+            headers,
+        });
+        if (!pathList.ok) {
+            console.error('Error getting path list from ' + uri, pathList.statusText);
+            throw new Error("Couldn't get path list from " + uri);
+        }
+        const data = await pathList.json();
+        return data;
+    }
     async addPath(pathName, path) {
         const headers = {
             'Content-Type': 'application/json',

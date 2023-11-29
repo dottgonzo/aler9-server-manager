@@ -1,80 +1,81 @@
 export type TAler9Config = {
-  logLevel?: string
-  logDestinations?: string[]
-  logFile?: string
-  readTimeout?: string
-  writeTimeout?: string
-  writeQueueSize?: number
-  udpMaxPayloadSize?: number
-  externalAuthenticationURL?: string
-  api?: boolean
-  apiAddress?: string
-  metrics?: boolean
-  metricsAddress?: string
-  pprof?: boolean
-  pprofAddress?: string
-  runOnConnect?: string
-  runOnConnectRestart?: boolean
-  runOnDisconnect?: string
-  rtsp?: boolean
-  protocols?: string[]
-  encryption?: string
-  rtspAddress?: string
-  rtspsAddress?: string
-  rtpAddress?: string
-  rtcpAddress?: string
-  multicastIPRange?: string
-  multicastRTPPort?: number
-  multicastRTCPPort?: number
-  serverKey?: string
-  serverCert?: string
-  authMethods?: string[]
-  rtmp?: boolean
-  rtmpAddress?: string
-  rtmpEncryption?: string
-  rtmpsAddress?: string
-  rtmpServerKey?: string
-  rtmpServerCert?: string
-  hls?: boolean
-  hlsAddress?: string
-  hlsEncryption?: boolean
-  hlsServerKey?: string
-  hlsServerCert?: string
-  hlsAlwaysRemux?: boolean
-  hlsVariant?: string
-  hlsSegmentCount?: number
-  hlsSegmentDuration?: string
-  hlsPartDuration?: string
-  hlsSegmentMaxSize?: string
-  hlsAllowOrigin?: string
-  hlsTrustedProxies?: string[]
-  hlsDirectory?: string
-  webrtc?: boolean
-  webrtcAddress?: string
-  webrtcEncryption?: boolean
-  webrtcServerKey?: string
-  webrtcServerCert?: string
-  webrtcAllowOrigin?: string
-  webrtcTrustedProxies?: string[]
-  webrtcLocalUDPAddress?: string
-  webrtcLocalTCPAddress?: string
-  webrtcIPsFromInterfaces?: boolean
-  webrtcIPsFromInterfacesList?: string[]
-  webrtcAdditionalHosts?: string[]
-  webrtcICEServers2?: {
-    url?: string
-    username?: string
-    password?: string
-  }[]
-  srt?: boolean
-  srtAddress?: string
-  record?: boolean
-  recordPath?: string
-  recordFormat?: string
-  recordPartDuration?: string
-  recordSegmentDuration?: string
-  recordDeleteAfter?: string
+  name: string
+  source: string
+  sourceFingerprint: string
+  sourceOnDemand: true
+  sourceOnDemandStartTimeout: string
+  sourceOnDemandCloseAfter: string
+  maxReaders: number
+  srtReadPassphrase: string
+  fallback: string
+  record: true
+  recordPath: string
+  recordFormat: string
+  recordPartDuration: string
+  recordSegmentDuration: string
+  recordDeleteAfter: string
+  publishUser: string
+  publishPass: string
+  publishIPs: string[]
+  readUser: string
+  readPass: string
+  readIPs: string[]
+  overridePublisher: true
+  srtPublishPassphrase: string
+  rtspTransport: string
+  rtspAnyPort: true
+  rtspRangeType: string
+  rtspRangeStart: string
+  sourceRedirect: string
+  rpiCameraCamID: number
+  rpiCameraWidth: number
+  rpiCameraHeight: number
+  rpiCameraHFlip: true
+  rpiCameraVFlip: true
+  rpiCameraBrightness: number
+  rpiCameraContrast: number
+  rpiCameraSaturation: number
+  rpiCameraSharpness: number
+  rpiCameraExposure: string
+  rpiCameraAWB: string
+  rpiCameraDenoise: string
+  rpiCameraShutter: number
+  rpiCameraMetering: string
+  rpiCameraGain: number
+  rpiCameraEV: number
+  rpiCameraROI: string
+  rpiCameraHDR: true
+  rpiCameraTuningFile: string
+  rpiCameraMode: string
+  rpiCameraFPS: number
+  rpiCameraIDRPeriod: number
+  rpiCameraBitrate: number
+  rpiCameraProfile: string
+  rpiCameraLevel: string
+  rpiCameraAfMode: string
+  rpiCameraAfRange: string
+  rpiCameraAfSpeed: string
+  rpiCameraLensPosition: number
+  rpiCameraAfWindow: string
+  rpiCameraTextOverlayEnable: true
+  rpiCameraTextOverlay: string
+  runOnInit: string
+  runOnInitRestart: true
+  runOnDemand: string
+  runOnDemandRestart: true
+  runOnDemandStartTimeout: string
+  runOnDemandCloseAfter: string
+  runOnUnDemand: string
+  runOnReady: string
+  runOnReadyRestart: true
+  runOnNotReady: string
+  runOnRead: string
+  runOnReadRestart: true
+  runOnUnread: string
+  runOnRecordSegmentCreate: string
+  runOnRecordSegmentComplete: string
 }
+
 export type TAler9PathItem = {
   name: string
   confName: string
@@ -85,8 +86,8 @@ export type TAler9PathItem = {
   ready: true
   readyTime: string
   tracks: string[]
-  bytesReceived: 0
-  bytesSent: 0
+  bytesReceived: number
+  bytesSent: number
   readers: [
     {
       type: string
@@ -173,7 +174,7 @@ export type TPathConfigList = {
   items: TAler9Config[]
 }
 export type TAler9PathsList = {
-  pageCount: 0
+  pageCount: number
   items: TAler9PathItem[]
 }
 export type TConnections = {
@@ -321,6 +322,24 @@ export default class Aler9StreamServer {
     const data: TAler9PathsList = await pathList.json()
     return data
   }
+  async getPathsConfigs() {
+    const headers: any = {
+      'Content-Type': 'application/json',
+    }
+    if (this.auth) headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password)
+    const uri = this.uri + '/v3/config/paths/list'
+    const pathList = await fetch(uri, {
+      method: 'GET',
+      headers,
+    })
+    if (!pathList.ok) {
+      console.error('Error getting path list from ' + uri, pathList.statusText)
+      throw new Error("Couldn't get path list from " + uri)
+    }
+    const data: TPathConfigList = await pathList.json()
+    return data
+  }
+
   async addPath(pathName: string, path: Partial<TAler9PathConfig>) {
     const headers: any = {
       'Content-Type': 'application/json',
