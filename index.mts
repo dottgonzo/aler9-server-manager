@@ -1,4 +1,4 @@
-export type TAler9Config = {
+export type TAler9ItemConfig = {
   name: string
   source: string
   sourceFingerprint: string
@@ -171,7 +171,7 @@ export type TAler9PathConfig = {
 
 export type TPathConfigList = {
   pageCount: number
-  items: TAler9Config[]
+  items: TAler9ItemConfig[]
 }
 export type TAler9PathsList = {
   pageCount: number
@@ -271,7 +271,7 @@ export default class Aler9StreamServer {
     if (cfg.auth) this.auth = cfg.auth
   }
 
-  async setConfig(config: Partial<TAler9Config>) {
+  async setConfig(config: Partial<TAler9PathConfig>) {
     const headers: any = {
       'Content-Type': 'application/json',
     }
@@ -302,7 +302,7 @@ export default class Aler9StreamServer {
       console.error('Error getting config from ' + uri, config.statusText)
       throw new Error("Couldn't get config from " + uri)
     }
-    const data: TAler9Config = await config.json()
+    const data: TAler9PathConfig = await config.json()
     return data
   }
   async getPaths() {
