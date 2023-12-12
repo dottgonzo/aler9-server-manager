@@ -372,7 +372,7 @@ export default class Aler9StreamServer {
     }
     if (this.auth) headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password)
     const deletePathFromServer = await fetch(this.uri + '/v3/config/paths/delete/' + pathName, {
-      method: 'POST',
+      method: 'DELETE',
       headers,
     })
     if (deletePathFromServer.ok) return true
