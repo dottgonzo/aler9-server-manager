@@ -85,7 +85,7 @@ export default class Aler9StreamServer {
         };
         if (this.auth)
             headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password);
-        const uri = this.uri + '/v3/config/get';
+        const uri = this.uri + '/v3/config/global/get';
         const config = await fetch(uri, {
             method: 'GET',
             headers,
