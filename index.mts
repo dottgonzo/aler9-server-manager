@@ -95,6 +95,19 @@ export type TAler9PathItem = {
     }
   ]
 }
+export type TMediaMTXRecordingSegment = {
+  start: string
+}
+
+export type TMediaMTXRecordingListItem = {
+  name: string
+  segments: TMediaMTXRecordingSegment[]
+}
+
+export type TMediaMTXRecordingList = {
+  pageCount: number
+  items: TMediaMTXRecordingListItem[]
+}
 
 export type TAler9PathConfig = {
   name: string
@@ -320,6 +333,57 @@ export default class Aler9StreamServer {
       throw new Error("Couldn't get path list from " + uri)
     }
     const data: TAler9PathsList = await pathList.json()
+    return data
+  }
+  async getRecordings() {
+    const headers: any = {
+      'Content-Type': 'application/json',
+    }
+    if (this.auth) headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password)
+    const uri = this.uri + '/v3/recordings/list'
+    const pathList = await fetch(uri, {
+      method: 'GET',
+      headers,
+    })
+    if (!pathList.ok) {
+      console.error('Error getting recording list from ' + uri, pathList.statusText)
+      throw new Error("Couldn't get recording list from " + uri)
+    }
+    const data: TMediaMTXRecordingList = await pathList.json()
+    return data
+  }
+  async getPathRecordings(pathName: string) {
+    const headers: any = {
+      'Content-Type': 'application/json',
+    }
+    if (this.auth) headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password)
+    const uri = this.uri + '/v3/recordings/get/' + pathName
+    const pathList = await fetch(uri, {
+      method: 'GET',
+      headers,
+    })
+    if (!pathList.ok) {
+      console.error('Error getting path list from ' + uri, pathList.statusText)
+      throw new Error("Couldn't get path list from " + uri)
+    }
+    const data: TMediaMTXRecordingList = await pathList.json()
+    return data
+  }
+  async deleteRecordingSegment(pathName: string, start: string) {
+    const headers: any = {
+      'Content-Type': 'application/json',
+    }
+    if (this.auth) headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password)
+    const uri = this.uri + '/v3/recordings/deletesegment?path=' + pathName + '&start=' + start
+    const recDel = await fetch(uri, {
+      method: 'DELETE',
+      headers,
+    })
+    if (!recDel.ok) {
+      console.error('Error deleting recording segment from ' + uri, recDel.statusText)
+      throw new Error("Couldn't delete recording segment from " + uri)
+    }
+    const data: TMediaMTXRecordingList = await recDel.json()
     return data
   }
   async getPathsConfigs() {

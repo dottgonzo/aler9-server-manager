@@ -115,6 +115,60 @@ export default class Aler9StreamServer {
         const data = await pathList.json();
         return data;
     }
+    async getRecordings() {
+        const headers = {
+            'Content-Type': 'application/json',
+        };
+        if (this.auth)
+            headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password);
+        const uri = this.uri + '/v3/recordings/list';
+        const pathList = await fetch(uri, {
+            method: 'GET',
+            headers,
+        });
+        if (!pathList.ok) {
+            console.error('Error getting recording list from ' + uri, pathList.statusText);
+            throw new Error("Couldn't get recording list from " + uri);
+        }
+        const data = await pathList.json();
+        return data;
+    }
+    async getPathRecordings(pathName) {
+        const headers = {
+            'Content-Type': 'application/json',
+        };
+        if (this.auth)
+            headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password);
+        const uri = this.uri + '/v3/recordings/get/' + pathName;
+        const pathList = await fetch(uri, {
+            method: 'GET',
+            headers,
+        });
+        if (!pathList.ok) {
+            console.error('Error getting path list from ' + uri, pathList.statusText);
+            throw new Error("Couldn't get path list from " + uri);
+        }
+        const data = await pathList.json();
+        return data;
+    }
+    async deleteRecordingSegment(pathName, start) {
+        const headers = {
+            'Content-Type': 'application/json',
+        };
+        if (this.auth)
+            headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password);
+        const uri = this.uri + '/v3/recordings/deletesegment?path=' + pathName + '&start=' + start;
+        const recDel = await fetch(uri, {
+            method: 'DELETE',
+            headers,
+        });
+        if (!recDel.ok) {
+            console.error('Error deleting recording segment from ' + uri, recDel.statusText);
+            throw new Error("Couldn't delete recording segment from " + uri);
+        }
+        const data = await recDel.json();
+        return data;
+    }
     async getPathsConfigs() {
         const headers = {
             'Content-Type': 'application/json',
