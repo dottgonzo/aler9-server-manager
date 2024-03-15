@@ -366,7 +366,7 @@ export default class Aler9StreamServer {
       console.error('Error getting path list from ' + uri, pathList.statusText)
       throw new Error("Couldn't get path list from " + uri)
     }
-    const data: TMediaMTXRecordingList = await pathList.json()
+    const data: TMediaMTXRecordingListItem = await pathList.json()
     return data
   }
   async deleteRecordingSegment(pathName: string, start: string) {
