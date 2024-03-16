@@ -383,8 +383,7 @@ export default class Aler9StreamServer {
       console.error('Error deleting recording segment from ' + uri, recDel.statusText)
       throw new Error("Couldn't delete recording segment from " + uri)
     }
-    const data: TMediaMTXRecordingList = await recDel.json()
-    return data
+    return
   }
   async getPathsConfigs() {
     const headers: any = {
