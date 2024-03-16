@@ -198,6 +198,11 @@ export type TMediaMTXRecordingList = {
   items: TMediaMTXRecordingListItem[]
 }
 
+export type TMediaMTXPlaybackPathListItem = {
+  start: string
+  duration: string
+}
+
 export type TAler9PathConfig = {
   name: string
   source: string
@@ -366,11 +371,19 @@ const Base64 = {
 
 export default class Aler9StreamServer {
   uri: string = ''
-  auth?: { type: 'basic'; username: string; password: string }
-  constructor(cfg: { uri: string; auth?: { type: 'basic'; username: string; password: string } }) {
+  playbackUri: string = ''
+  private auth?: { type: 'basic'; username: string; password: string }
+  config?: TAler9Configuration
+
+  constructor(cfg: {
+    uri: string
+    auth?: { type: 'basic'; username: string; password: string }
+    playbackUri?: string
+  }) {
     if (cfg.uri) this.uri = cfg.uri
     else throw new Error('uri is required')
     if (cfg.auth) this.auth = cfg.auth
+    if (cfg.playbackUri) this.playbackUri = cfg.playbackUri
   }
 
   async patchConfig(config: Partial<TAler9Configuration>) {
@@ -405,6 +418,7 @@ export default class Aler9StreamServer {
       throw new Error("Couldn't get config from " + uri)
     }
     const data: TAler9Configuration = await config.json()
+    this.config = data
     return data
   }
   async getPaths() {
@@ -439,6 +453,28 @@ export default class Aler9StreamServer {
       throw new Error("Couldn't get recording list from " + uri)
     }
     const data: TMediaMTXRecordingList = await pathList.json()
+    return data
+  }
+  async getRecordingsPlaybackList4Path(pathName: string) {
+    if (!this.playbackUri && !this.config) {
+      await this.getConfig()
+    }
+    if (!this.playbackUri && this.config && this.config.playbackAddress) this.playbackUri = this.config.playbackAddress
+    if (!this.playbackUri) throw new Error('playbackUri is required')
+    const headers: any = {
+      'Content-Type': 'application/json',
+    }
+    if (this.auth) headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password)
+    const uri = this.playbackUri + '/list?path=' + pathName
+    const pathList = await fetch(uri, {
+      method: 'GET',
+      headers,
+    })
+    if (!pathList.ok) {
+      console.error('Error getting recording list from ' + uri, pathList.statusText)
+      throw new Error("Couldn't get recording list from " + uri)
+    }
+    const data: TMediaMTXPlaybackPathListItem = await pathList.json()
     return data
   }
   async getPathRecordings(pathName: string) {
