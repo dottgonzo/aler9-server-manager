@@ -1,3 +1,93 @@
+export type AuthInternalUserPermission = {
+  action: string
+  path: string
+}
+
+export type AuthInternalUser = {
+  user: string
+  pass: string
+  ips: string[]
+  permissions: AuthInternalUserPermission[]
+}
+
+export type AuthHTTPExclude = {
+  action: string
+  path: string
+}
+
+export type TAler9Configuration = {
+  logLevel: string
+  logDestinations: string[]
+  logFile: string
+  readTimeout: string
+  writeTimeout: string
+  writeQueueSize: number
+  udpMaxPayloadSize: number
+  metrics: boolean
+  metricsAddress: string
+  pprof: boolean
+  pprofAddress: string
+  runOnConnect: string
+  runOnConnectRestart: boolean
+  runOnDisconnect: string
+  authMethod: string
+  authInternalUsers: AuthInternalUser[]
+  authHTTPAddress: string
+  authHTTPExclude: AuthHTTPExclude[]
+  authJWTJWKS: string
+  api: boolean
+  apiAddress: string
+  playback: boolean
+  playbackAddress: string
+  rtsp: boolean
+  protocols: string[]
+  encryption: string
+  rtspAddress: string
+  rtspsAddress: string
+  rtpAddress: string
+  rtcpAddress: string
+  multicastIPRange: string
+  multicastRTPPort: number
+  multicastRTCPPort: number
+  serverKey: string
+  serverCert: string
+  rtspAuthMethods: string[]
+  rtmp: boolean
+  rtmpAddress: string
+  rtmpEncryption: string
+  rtmpsAddress: string
+  rtmpServerKey: string
+  rtmpServerCert: string
+  hls: boolean
+  hlsAddress: string
+  hlsEncryption: boolean
+  hlsServerKey: string
+  hlsServerCert: string
+  hlsAlwaysRemux: boolean
+  hlsVariant: string
+  hlsSegmentCount: number
+  hlsSegmentDuration: string
+  hlsPartDuration: string
+  hlsSegmentMaxSize: string
+  hlsAllowOrigin: string
+  hlsTrustedProxies: string[]
+  hlsDirectory: string
+  webrtc: boolean
+  webrtcAddress: string
+  webrtcEncryption: boolean
+  webrtcServerKey: string
+  webrtcServerCert: string
+  webrtcAllowOrigin: string
+  webrtcTrustedProxies: string[]
+  webrtcLocalUDPAddress: string
+  webrtcLocalTCPAddress: string
+  webrtcIPsFromInterfaces: boolean
+  webrtcIPsFromInterfacesList: string[]
+  webrtcAdditionalHosts: string[]
+  webrtcICEServers2: any[] // Replace `any` with a more specific type if needed
+  srt: boolean
+  srtAddress: string
+}
 export type TAler9Config = {
   name: string
   source: string
@@ -75,7 +165,6 @@ export type TAler9Config = {
   runOnRecordSegmentCreate: string
   runOnRecordSegmentComplete: string
 }
-
 export type TAler9PathItem = {
   name: string
   confName: string
@@ -284,20 +373,20 @@ export default class Aler9StreamServer {
     if (cfg.auth) this.auth = cfg.auth
   }
 
-  async setConfig(config: Partial<TAler9Config>) {
+  async patchConfig(config: Partial<TAler9Configuration>) {
     const headers: any = {
       'Content-Type': 'application/json',
     }
     if (this.auth) headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password)
-    const uri = this.uri + '/v3/config/set'
-    const setConfig = await fetch(uri, {
-      method: 'POST',
+    const uri = this.uri + '/v3/config/global/patch'
+    const patchConfig = await fetch(uri, {
+      method: 'PATCH',
       headers,
       body: JSON.stringify(config),
     })
-    if (!setConfig.ok) {
-      console.error('Error setting config from ' + uri, setConfig.statusText)
-      throw new Error("Couldn't set config from " + uri)
+    if (!patchConfig.ok) {
+      console.error('Error patch config from ' + uri, patchConfig.statusText)
+      throw new Error("Couldn't patch config from " + uri)
     }
   }
 
@@ -315,7 +404,7 @@ export default class Aler9StreamServer {
       console.error('Error getting config from ' + uri, config.statusText)
       throw new Error("Couldn't get config from " + uri)
     }
-    const data: TAler9Config = await config.json()
+    const data: TAler9Configuration = await config.json()
     return data
   }
   async getPaths() {

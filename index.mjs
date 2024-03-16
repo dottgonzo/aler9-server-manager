@@ -62,21 +62,21 @@ export default class Aler9StreamServer {
         if (cfg.auth)
             this.auth = cfg.auth;
     }
-    async setConfig(config) {
+    async patchConfig(config) {
         const headers = {
             'Content-Type': 'application/json',
         };
         if (this.auth)
             headers.Authorization = 'Basic ' + Base64.encode(this.auth?.username + ':' + this.auth?.password);
-        const uri = this.uri + '/v3/config/set';
-        const setConfig = await fetch(uri, {
-            method: 'POST',
+        const uri = this.uri + '/v3/config/global/patch';
+        const patchConfig = await fetch(uri, {
+            method: 'PATCH',
             headers,
             body: JSON.stringify(config),
         });
-        if (!setConfig.ok) {
-            console.error('Error setting config from ' + uri, setConfig.statusText);
-            throw new Error("Couldn't set config from " + uri);
+        if (!patchConfig.ok) {
+            console.error('Error patch config from ' + uri, patchConfig.statusText);
+            throw new Error("Couldn't patch config from " + uri);
         }
     }
     async getConfig() {
