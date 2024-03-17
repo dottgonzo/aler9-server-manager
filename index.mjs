@@ -62,8 +62,8 @@ export default class Aler9StreamServer {
             throw new Error('uri is required');
         if (cfg.auth)
             this.auth = cfg.auth;
-        if (cfg.playbackUri)
-            this.playbackUri = cfg.playbackUri;
+        if (cfg.playbackProxyUri)
+            this.playbackUri = cfg.playbackProxyUri;
     }
     async patchConfig(config) {
         const headers = {

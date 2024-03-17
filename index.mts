@@ -378,12 +378,12 @@ export default class Aler9StreamServer {
   constructor(cfg: {
     uri: string
     auth?: { type: 'basic'; username: string; password: string }
-    playbackUri?: string
+    playbackProxyUri?: string
   }) {
     if (cfg.uri) this.uri = cfg.uri
     else throw new Error('uri is required')
     if (cfg.auth) this.auth = cfg.auth
-    if (cfg.playbackUri) this.playbackUri = cfg.playbackUri
+    if (cfg.playbackProxyUri) this.playbackUri = cfg.playbackProxyUri
   }
 
   async patchConfig(config: Partial<TAler9Configuration>) {
